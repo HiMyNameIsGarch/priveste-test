@@ -68,7 +68,7 @@
     "mitt": "3.0.0",
     "next-auth": "4.22.1",
     "pinia": "2.1.4",
-    "prisma": "4.15.0",
+    "prisma": "5.1.0",
     "vee-validate": "4.9.6"
   },
   "devDependencies": {
