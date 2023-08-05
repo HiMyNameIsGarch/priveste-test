@@ -12,7 +12,7 @@ to: "src/pages/<%= path %>.vue"
 </template>
 
 <script setup lang="ts">
-import { computed, useHead } from '#imports';
+import { computed, useHead, definePageMeta } from '#imports';
 <% if (store !== 'None') { -%>
 import { usePrefillStoreAction } from '~/composables/use-prefill-store-action';
 import { use<%= store %>Store } from '~/store/<%= store.toLowerCase() %>';
