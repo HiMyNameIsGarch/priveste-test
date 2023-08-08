@@ -2,7 +2,6 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import { IMovie } from '~/interfaces/IMovie';
 // import { IMovie, IMovieCreate, IMovieUpdate } from '~/interfaces/IMovie';
 import { $fetchWithCookies } from '~/utils/fetchWithCookies';
-
 export interface IMovieState {
   movies: Array<IMovie>;
   currentMovie?: string;
