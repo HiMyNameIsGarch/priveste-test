@@ -7,5 +7,5 @@ const sleep = (ms: number): Promise<unknown> => {
 export default defineEventHandler(async () => {
   await sleep(sleepValue);
 
-  return { currentMovie: 'Planning saving the world' };
+  return { currentMovie: 'Planning saving the world 2' };
 });

@@ -12,10 +12,7 @@ export const useMovieStore = defineStore('movie', {
   state: (): IMovieState => {
     return {
       // default data
-      movies: [
-        { name: 'Sharper', date: new Date() } as IMovie,
-        { name: 'Save the world please', date: new Date() } as IMovie,
-      ],
+      movies: [],
       currentMovie: 'Liga legando',
       error: null,
     };
@@ -36,18 +33,20 @@ export const useMovieStore = defineStore('movie', {
     },
   },
   actions: {
-    // async fetchMovies() {
-    //   try {
-    //     this.error = null;
-    //     // this.movies = await $fetchWithCookies<Array<IMovie>>('/api/movie');
-    //   } catch (e) {
-    //     this.error = e;
-    //   }
-    // },
+    async fetchAllMovies() {
+      try {
+        this.error = null;
+        const temp = await $fetchWithCookies<Array<IMovie>>('/api/movies/movies', 'GET');
+        console.log(temp);
+        this.movies = temp;
+      } catch (e) {
+        this.error = e;
+      }
+    },
     async fetchMovie() {
       try {
         this.error = null;
-        this.currentMovie = await $fetchWithCookies<string>(`/api/movies/crud`);
+        this.currentMovie = await $fetchWithCookies<string>(`/api/movies/movie`, 'GET');
       } catch (e) {
         this.error = e;
       }

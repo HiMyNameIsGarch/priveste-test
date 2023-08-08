@@ -1,3 +1,5 @@
+import { IMovie } from '~/interfaces/IMovie';
+
 // simulate server response
 const sleepValue = 500;
 const sleep = (ms: number): Promise<unknown> => {
@@ -7,5 +9,8 @@ const sleep = (ms: number): Promise<unknown> => {
 export default defineEventHandler(async () => {
   await sleep(sleepValue);
 
-  return { currentMovie: 'Planning saving the world' };
+  // mock data
+  const movies = [{ name: 'Cirlce', date: new Date() } as IMovie, { name: 'Cube', date: new Date() } as IMovie];
+
+  return movies;
 });
