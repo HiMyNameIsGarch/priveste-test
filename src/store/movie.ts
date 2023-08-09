@@ -51,17 +51,17 @@ export const useMovieStore = defineStore('movie', {
         this.error = e;
       }
     },
-    // async createMovie(movie: IMovieCreate) {
-    //   try {
-    //     this.error = null;
-    //     const newMovie = await $fetchWithCookies<IMovie>(`/api/movie`, 'POST', movie);
-    //
-    //     // this.movies.push(newMovie);
-    //     // this.currentMovie = newMovie;
-    //   } catch (e) {
-    //     this.error = e;
-    //   }
-    // },
+    async createMovie(movie: string) {
+      try {
+        this.error = null;
+        const newMovie = await $fetchWithCookies<IMovie>(`/api/movies/movie`, 'POST', { movieName: movie });
+
+        this.movies.push(newMovie);
+        this.currentMovie = newMovie.name;
+      } catch (e) {
+        this.error = e;
+      }
+    },
     // async updateMovie(movie: IMovieUpdate) {
     //   try {
     //     this.error = null;
