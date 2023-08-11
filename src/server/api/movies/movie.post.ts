@@ -8,8 +8,11 @@ const sleep = (ms: number): Promise<unknown> => {
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const newMovie = {} as IMovie;
+  newMovie.id = body.movieName + ' - id';
   newMovie.date = new Date();
   newMovie.name = body.movieName;
+  console.log(newMovie.name);
+  console.log(newMovie.id);
 
   await sleep(sleepValue);
 

@@ -2,6 +2,7 @@ import { Prisma } from '.prisma/client';
 
 // export const MovieInclude: Prisma.MovieInclude = {};
 export interface IMovie extends Prisma.MovieGetPayload<{}> {
+  id: string;
   name: string;
   date: Date;
 }

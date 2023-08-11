@@ -1,10 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { IMovie } from '~/interfaces/IMovie';
-// import { IMovie, IMovieCreate, IMovieUpdate } from '~/interfaces/IMovie';
 import { $fetchWithCookies } from '~/utils/fetchWithCookies';
 export interface IMovieState {
   movies: Array<IMovie>;
-  currentMovie?: string;
+  currentMovie?: IMovie;
   error: unknown;
 }
 
@@ -13,7 +12,7 @@ export const useMovieStore = defineStore('movie', {
     return {
       // default data
       movies: [],
-      currentMovie: 'Liga legando',
+      currentMovie: {} as IMovie,
       error: null,
     };
   },
@@ -33,12 +32,14 @@ export const useMovieStore = defineStore('movie', {
     },
   },
   actions: {
+    setCurrentMovie(newMovie: IMovie) {
+      this.currentMovie = newMovie;
+    },
     async fetchAllMovies() {
       try {
         this.error = null;
-        const temp = await $fetchWithCookies<Array<IMovie>>('/api/movies/movies', 'GET');
-        console.log(temp);
-        this.movies = temp;
+        const movies = await $fetchWithCookies<Array<IMovie>>('/api/movies/movies', 'GET');
+        movies.forEach((movie) => this.movies.push(movie));
       } catch (e) {
         this.error = e;
       }
@@ -46,7 +47,7 @@ export const useMovieStore = defineStore('movie', {
     async fetchMovie() {
       try {
         this.error = null;
-        this.currentMovie = await $fetchWithCookies<string>(`/api/movies/movie`, 'GET');
+        this.currentMovie = await $fetchWithCookies<IMovie>(`/api/movies/movie`, 'GET');
       } catch (e) {
         this.error = e;
       }
@@ -54,35 +55,37 @@ export const useMovieStore = defineStore('movie', {
     async createMovie(movie: string) {
       try {
         this.error = null;
+        console.log(movie);
         const newMovie = await $fetchWithCookies<IMovie>(`/api/movies/movie`, 'POST', { movieName: movie });
 
         this.movies.push(newMovie);
-        this.currentMovie = newMovie.name;
+        this.currentMovie = newMovie;
       } catch (e) {
         this.error = e;
       }
     },
-    // async updateMovie(movie: IMovieUpdate) {
+    // async updateMovie(movieId: string) {
     //   try {
     //     this.error = null;
-    //     // const updatedMovie = await $fetchWithCookies<IMovie>(`/api/movie/${movie.id}`, 'PUT', movie);
-    //     // const idx = this.movies.findIndex((item) => item.id === updatedMovie.id);
-    //     // this.movies.splice(idx, 1, updatedMovie);
-    //     // this.currentMovie = updatedMovie;
+    //     const updatedMovie = await $fetchWithCookies<IMovie>(`/api/movies/${movieId}`, 'PUT');
+    //     const idx = this.movies.findIndex((item) => item.id === updatedMovie.id);
+    //     this.movies.splice(idx, 1, updatedMovie);
+    //     this.currentMovie = updatedMovie;
     //   } catch (e) {
     //     this.error = e;
     //   }
     // },
-    // async deleteMovie(movieId: string) {
-    //   try {
-    //     this.error = null;
-    //     await $fetchWithCookies<IMovie>(`/api/movie/${movieId}`, 'DELETE');
-    //     // const idx = this.movies.findIndex((item) => item.id === movieId);
-    //     // this.movies.splice(idx, 1);
-    //   } catch (e) {
-    //     this.error = e;
-    //   }
-    // },
+    async deleteMovie(movieId: string) {
+      try {
+        this.error = null;
+        const res = await $fetchWithCookies<IMovie>(`/api/movies/${movieId}`, 'DELETE');
+        console.log(res);
+        const idx = this.movies.findIndex((item) => item.id === movieId);
+        this.movies.splice(idx, 1);
+      } catch (e) {
+        this.error = e;
+      }
+    },
   },
 });
 

@@ -1,15 +1,18 @@
 <template>
   <vue-content-block :class="$style.unnamedPage">
-    <h1>Current movie: {{ currentMovie }}</h1>
-    <li v-for="movie in movies" :key="movie.name">{{ movie.name }} - {{ movie.date }}</li>
-    <vue-button look="primary" trailing-icon="plus-circle" @click="getMovie"> Get Movie </vue-button>
-    <vue-button look="primary" trailing-icon="plus-circle" @click="getAllMovies"> Get All Movies </vue-button>
+    <li v-for="movie in movies" :key="movie.id">
+      <div>
+        <h1>{{ movie.name }} - {{ movie.date }}</h1>
+        <vue-button look="primary" trailing-icon="plus-circle" @click="setCurrent(movie)"> Set Current </vue-button>
+        <vue-button look="primary" trailing-icon="plus-circle" @click="deleteMovie(movie.id)"> Delete </vue-button>
+      </div>
+    </li>
     <form :class="$style.loginForm" @submit.stop.prevent="onSubmit">
       <vue-stack>
         <vue-text look="h3" as="h3"> Add new Movie </vue-text>
         <vue-input
           id="movieName"
-          v-model="movieName"
+          v-model="currentMovie.name"
           name="movieName"
           autofocus
           required
@@ -24,6 +27,7 @@
         </vue-inline>
       </vue-stack>
     </form>
+    <vue-button look="primary" trailing-icon="plus-circle" @click="getAllMovies"> Get All Movies </vue-button>
   </vue-content-block>
 </template>
 
@@ -37,35 +41,33 @@ import VueInput from '~/components/input-and-actions/VueInput/VueInput.vue';
 import VueStack from '~/components/layout/VueStack/VueStack.vue';
 import VueInline from '~/components/layout/VueInline/VueInline.vue';
 import VueButton from '~/components/input-and-actions/VueButton/VueButton.vue';
-// import { IMovie } from '~/interfaces/IMovie';
-
-// Deps
-const store = useMovieStore();
+import { IMovie } from '~/interfaces/IMovie';
 
 // Config
 useHead({ title: 'Movies' });
 definePageMeta({ auth: false });
 
 // Data
+const store = useMovieStore();
 const movies = computed(() => store.getMovies);
-const currentMovie = computed(() => store.getCurrentMovie);
 
 // Event Handler
-const getMovie = async () => {
-  await store.fetchMovie();
-};
 const getAllMovies = async () => {
   await store.fetchAllMovies();
 };
-const movieName = ref('');
+const currentMovie = ref<IMovie>({} as IMovie);
 
 const onSubmit = async () => {
-  await store.createMovie(movieName.value);
-  movieName.value = '';
+  await store.createMovie(currentMovie.value.name);
+  currentMovie.value.name = '';
 };
-// const createMovie = async () => {
-//   await store.createMovie();
-// };
+const setCurrent = (newMovie: IMovie) => {
+  currentMovie.value = newMovie;
+  const idx = movies.value.findIndex((item) => item.id === newMovie.id);
+  movies.value.splice(idx, 1, newMovie);
+  store.setCurrentMovie(newMovie);
+};
+const deleteMovie = async (id: string) => await store.deleteMovie(id);
 
 // Data fetching
 // usePrefillStoreAction(store.fetchMovie, store.fetchMovie);

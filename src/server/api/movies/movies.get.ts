@@ -10,7 +10,11 @@ export default defineEventHandler(async () => {
   await sleep(sleepValue);
 
   // mock data
-  const movies = [{ name: 'Cirlce', date: new Date() } as IMovie, { name: 'Cube', date: new Date() } as IMovie];
+  const movies = [
+    { id: 'one', name: 'Cirlce', date: new Date() } as IMovie,
+    { id: 'two', name: 'Cube', date: new Date() } as IMovie,
+    { id: 'three', name: 'Buzz', date: new Date() } as IMovie,
+  ];
 
   return movies;
 });
