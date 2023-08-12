@@ -63,7 +63,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   selectedSlide: 1,
   minHeight: 500,
   showIndicator: true,
-  showPagination: false,
+  showPagination: true,
 });
 const emit = defineEmits<CarouselEmits>();
 
@@ -79,7 +79,6 @@ const maxSlides = computed<number>(() => images.value.length);
 const intervalInstance = ref<any>(null);
 const pause = ref(false);
 const preloadedImages = ref<Array<HTMLImageElement>>([]);
-
 // Methods
 const isActiveSlide = (idx: number) => currentSlide.value === idx;
 const changeSlide = (newSlide: number, fromPagination = false) => {
@@ -137,7 +136,7 @@ onBeforeUnmount(() => clearInterval(intervalInstance.value));
 .vueCarousel {
   position: relative;
   overflow: hidden;
-  border-radius: $carousel-border-radius;
+  max-width: 30vw;
 
   .image {
     position: absolute;
