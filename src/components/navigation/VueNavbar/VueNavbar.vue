@@ -80,6 +80,7 @@ const $style = useCssModule();
   max-width: 15%;
   position: absolute;
   z-index: 999;
+  
 }
 
 .center {

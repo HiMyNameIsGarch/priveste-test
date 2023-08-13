@@ -16,7 +16,7 @@
         </div>
       </template>
       <template #left>
-        <div :class="$style.borderdelete"><img alt="logo" src="../assets/images/logo.png" /></div>
+        <div :class="$style.borderdelete"><img alt="logo" src="../assets/images/logo.svg" /></div>
       </template>
     </vue-navbar-vue>
     <vue-box-vue :class="[$style.container]">
