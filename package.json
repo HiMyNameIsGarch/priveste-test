@@ -68,7 +68,11 @@
     "firebase-functions": "4.4.1",
     "full-icu": "1.5.0",
     "lodash-es": "4.17.21",
+<<<<<<< Updated upstream
     "lru-cache": "10.0.1",
+=======
+    "lru-cache": "9.1.2",
+>>>>>>> Stashed changes
     "marked": "5.1.0",
     "mitt": "3.0.0",
     "next-auth": "4.22.1",
