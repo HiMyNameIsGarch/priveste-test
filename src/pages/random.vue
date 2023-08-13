@@ -1,41 +1,50 @@
 <template>
   <vue-content-block :class="$style.unnamedPage">
-    <vue-navbar></vue-navbar>
 
-    <vue-box-vue :class="[$style.backgroundColor, $style.flex, $style['justify-center'], $style['items-center']]"
-      >Video</vue-box-vue
-    >
-
-    <vue-box-vue>
-      <vue-carousel-vue :images="myImages"></vue-carousel-vue>
+   
+   <vue-box-vue :class="[$style.container]">
+    <vue-box-vue
+      :class="[$style.video, $style.flex, $style['justify-center'], $style['items-center'], $style.relative]">Video
     </vue-box-vue>
-
+    <vue-box-vue :class="[$style.absolute, $style.courses,  $style['block']]">
+      <vue-box-vue :class="[$style.flex]"> 
+       <vue-carousel-vue :images="carouselImages"></vue-carousel-vue>
+       <vue-carousel-vue :images="carouselImages"></vue-carousel-vue>
+       <vue-carousel-vue :images="carouselImages"></vue-carousel-vue>
+      </vue-box-vue>  
+      </vue-box-vue>
+  </vue-box-vue> 
     <!-- {{ randoms }}  -->
   </vue-content-block>
 </template>
 
 <script setup lang="ts">
-import { useHead, definePageMeta, ref } from '#imports';
+import { useHead, definePageMeta } from '#imports';
 import VueContentBlock from '~/components/layout/VueContentBlock/VueContentBlock.vue';
 import VueBoxVue from '~/components/layout/VueBox/VueBox.vue';
 import VueCarouselVue from '~/components/data-display/VueCarousel/VueCarousel.vue';
-import VueNavbar from '~/components/navigation/VueNavbar/VueNavbar.vue';
-
+import { ICarouselImage } from '~/components/data-display/VueCarousel/ICarouselImage';
 // Config
 useHead({ title: 'Random' });
 definePageMeta({ auth: false });
-const myImages = ref([
+const carouselImages: Array<ICarouselImage> = [
   {
-    alt: 'Slide 1',
-    copyright: 'unsplash.com/@hahnbo',
-    url: 'https://images.unsplash.com/photo-1485932465394-d20cc595f08b?ixlib=rb-0.3.5&s=e8798191cfef2e78f4ac91e71c92ea57&auto=format&fit=crop&w=3750&q=80',
+    url: "https://images.unsplash.com/photo-1485932465394-d20cc595f08b?ixlib=rb-0.3.5&s=e8798191cfef2e78f4ac91e71c92ea57&auto=format&fit=crop&w=3750&q=80",
   },
   {
-    alt: 'Slide 2',
-    copyright: 'unsplash.com/@mitr',
-    url: 'https://images.unsplash.com/photo-1486068338746-bc8c63a2d7ea?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=348afc4c4ac324a022630fbce9204348&auto=format&fit=crop&w=3890&q=80',
+    url: "https://images.unsplash.com/photo-1517365884913-3c33884b06fa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=05c7363bcb2c0a2c2241e6cdcf0dfb8b&auto=format&fit=crop&w=1234&q=80",
   },
-]);
+  {
+    url: "https://images.unsplash.com/photo-1496348323715-c11f0fc6aeed?ixlib=rb-0.3.5&s=52406f147b73f1000c032dcc5e4e0aea&auto=format&fit=crop&w=1388&q=80",
+  },
+];
+
+
+
+
+
+
+
 
 // Data
 // const store = useRandomStore();
@@ -51,10 +60,30 @@ const myImages = ref([
   padding-top: var(--box-bg);
 }
 
-.backgroundColor {
+.video {
   background-color: palette-color(info-3);
   padding: $space-144;
-  height: 40vw;
+  height: 80vh;
   font-size: $text-9;
+  
 }
+
+.courses {
+  top: 75vh;
+  height: 20vh;
+
+}
+
+.container {
+  margin-bottom: 50vh;
+  background: rgb(62,62,62);
+  background: linear-gradient(0deg, rgba(20, 21, 25,0.2861519607843137) 1%, rgba(160,202,244,1) 15%);
+  height: 100vh;
+}
+
+
+
+
+
+
 </style>

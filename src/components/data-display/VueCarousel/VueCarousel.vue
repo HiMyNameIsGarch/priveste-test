@@ -6,7 +6,7 @@
     @mouseenter="pause = true"
     @mouseleave="pause = false"
   >
-    <fade-animation v-for="(image, idx) in preloadedImages" :key="'image-' + idx">
+    <div v-for="(image, idx) in preloadedImages" :key="'image-' + idx">
       <div
         v-if="isActiveSlide(idx)"
         :title="image.getAttribute('alt')"
@@ -18,7 +18,7 @@
           &copy; {{ image.getAttribute('title') }}
         </div>
       </div>
-    </fade-animation>
+    </div>
 
     <ul v-if="showIndicator" :class="$style.indicator" data-testid="carousel-indicator">
       <li v-for="(_, idx) in preloadedImages" :key="'indicator-' + idx" :class="isActiveSlide(idx) && $style.active">
@@ -42,7 +42,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, useCssModule, watch } from 'vue';
 import { ICarouselImage } from '~/components/data-display/VueCarousel/ICarouselImage';
-import FadeAnimation from '~/components/animations/FadeAnimation/FadeAnimation.vue';
 import VuePagination from '~/components/navigation/VuePagination/VuePagination.vue';
 
 // Interface
@@ -81,10 +80,21 @@ const pause = ref(false);
 const preloadedImages = ref<Array<HTMLImageElement>>([]);
 // Methods
 const isActiveSlide = (idx: number) => currentSlide.value === idx;
+
+const changingSlide = ref(false);
+
 const changeSlide = (newSlide: number, fromPagination = false) => {
   if (fromPagination === false && pause.value) {
     return;
   }
+
+  if (changingSlide.value) {
+    return;
+  }
+
+  changingSlide.value = true;
+
+  clearInterval(intervalInstance.value);
 
   if (newSlide === maxSlides.value) {
     currentSlide.value = 0;
@@ -95,6 +105,10 @@ const changeSlide = (newSlide: number, fromPagination = false) => {
   }
 
   emit('update:selectedSlide', currentSlide.value + 1);
+  createIntervalInstance()
+  setTimeout(() => {
+    changingSlide.value = false;
+  }, interval.value / 10);
 };
 const createIntervalInstance = () => {
   if (images.value.length <= 1) {
@@ -136,7 +150,8 @@ onBeforeUnmount(() => clearInterval(intervalInstance.value));
 .vueCarousel {
   position: relative;
   overflow: hidden;
-  max-width: 30vw;
+  width: 30vw;
+  margin: $space-16;
 
   .image {
     position: absolute;

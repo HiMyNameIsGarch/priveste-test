@@ -29,7 +29,12 @@ module.exports = {
       'error',
       'always',
       {
-        ignore: ['modelValue'],
+        ignore: ['modelValue',   
+        'intervalInSeconds',
+        'selectedSlide',
+        'minHeight',
+        'showIndicator',
+        'showPagination',],
       },
     ],
     'vue/v-on-event-hyphenation': [
@@ -37,7 +42,12 @@ module.exports = {
       'always',
       {
         autofix: false,
-        ignore: ['modelValue'],
+        ignore: ['modelValue',   
+        'intervalInSeconds',
+        'selectedSlide',
+        'minHeight',
+        'showIndicator',
+        'showPagination',],
       },
     ],
   },

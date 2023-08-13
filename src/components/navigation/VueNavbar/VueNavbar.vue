@@ -1,41 +1,36 @@
 <template>
   <vue-box padding="0" align-y="center" :class="$style.vueNavBar" as="nav">
     <vue-content-block>
+      
       <vue-columns space="0" :class="$style.layout" align-y="center">
         <vue-column width="content" align-y="center" :can-grow="false">
-          <vue-icon-menu
-            v-if="showMenuIcon"
-            tabindex="0"
-            :class="$style.menu"
-            data-testid="menu"
-            @click.stop.prevent="/* c8 ignore start */ $emit('menu-click', $event) /* c8 ignore end */"
-          />
         </vue-column>
-
-        <vue-column align-x="center">
+        
+        <vue-column :class="$style.left">
+          <slot name="left" />
+        </vue-column>
+      
+        <vue-column align-y="center" align-x="center" :class="$style.center">
           <slot name="center" />
         </vue-column>
 
+
         <vue-column v-if="userName || userImage" :can-grow="false">
-          <vue-dropdown
-            :items="[
-              { label: 'Profile', value: 'profile', leadingIcon: 'user' },
-              { label: 'Settings', value: 'settings', leadingIcon: 'cog' },
-              { label: '', value: 'separator' },
-              { label: 'Logout', value: 'logout', leadingIcon: 'logout' },
-            ]"
-            :duration="dropdownDuration"
-            align-x-menu="right"
-            @item-click="$emit('menu-item-click', $event)"
-          >
+          <vue-dropdown :items="[
+            { label: 'Profile', value: 'profile', leadingIcon: 'user' },
+            { label: 'Settings', value: 'settings', leadingIcon: 'cog' },
+            { label: '', value: 'separator' },
+            { label: 'Logout', value: 'logout', leadingIcon: 'logout' },
+          ]" :duration="dropdownDuration" align-x-menu="right" @item-click="$emit('menu-item-click', $event)">
             <vue-avatar :name="userName" :src="userImage" size="sm" />
           </vue-dropdown>
         </vue-column>
 
-        <vue-column v-else :can-grow="false">
+        <vue-column v-else :can-grow="false" :class="$style.right">
           <slot name="right" />
         </vue-column>
       </vue-columns>
+      
     </vue-content-block>
   </vue-box>
 </template>
@@ -45,7 +40,6 @@ import { useCssModule } from 'vue';
 import VueBox from '~/components/layout/VueBox/VueBox.vue';
 import VueColumn from '~/components/layout/VueColumns/VueColumn/VueColumn.vue';
 import VueColumns from '~/components/layout/VueColumns/VueColumns.vue';
-import VueIconMenu from '~/components/icons/VueIconMenu.vue';
 import VueAvatar from '~/components/data-display/VueAvatar/VueAvatar.vue';
 import VueDropdown from '~/components/input-and-actions/VueDropdown/VueDropdown.vue';
 import VueContentBlock from '~/components/layout/VueContentBlock/VueContentBlock.vue';
@@ -76,20 +70,16 @@ const $style = useCssModule();
   z-index: $navbar-index;
   box-shadow: $navbar-elevation;
   border-bottom: $navbar-border;
-
+  padding: $space-24;
+ 
   .layout {
     height: 100%;
-
-    .menu {
-      width: $navbar-menu-icon-size;
-      height: $navbar-menu-icon-size;
-      outline: none;
-      cursor: pointer;
-
-      &:focus {
-        box-shadow: $navbar-menu-outline;
-      }
-    }
   }
 }
+.left {
+  flex: 0;
+}
+
+
+
 </style>

@@ -22,6 +22,21 @@
   display: inline-grid;
 }
 
+// Position 
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.sticky {
+  position: sticky;
+}
+
+
 // Helpers
 .wrap {
   flex-wrap: wrap;
