@@ -1,27 +1,29 @@
 <template>
   <vue-box padding="0" align-y="center" :class="$style.vueNavBar" as="nav">
     <vue-content-block>
-      
       <vue-columns space="0" :class="$style.layout" align-y="center">
-        <vue-column width="content" align-y="center" :can-grow="false">
-        </vue-column>
-        
+        <vue-column width="content" align-y="center" :can-grow="false"> </vue-column>
+
         <vue-column :class="$style.left">
           <slot name="left" />
         </vue-column>
-      
+
         <vue-column align-y="center" align-x="center" :class="$style.center">
           <slot name="center" />
         </vue-column>
 
-
-        <vue-column v-if="userName || userImage" :can-grow="false">
-          <vue-dropdown :items="[
-            { label: 'Profile', value: 'profile', leadingIcon: 'user' },
-            { label: 'Settings', value: 'settings', leadingIcon: 'cog' },
-            { label: '', value: 'separator' },
-            { label: 'Logout', value: 'logout', leadingIcon: 'logout' },
-          ]" :duration="dropdownDuration" align-x-menu="right" @item-click="$emit('menu-item-click', $event)">
+        <vue-column v-if="userName || userImage" :can-grow="false" :class="$style.right">
+          <vue-dropdown
+            :items="[
+              { label: 'Profile', value: 'profile', leadingIcon: 'user' },
+              { label: 'Settings', value: 'settings', leadingIcon: 'cog' },
+              { label: '', value: 'separator' },
+              { label: 'Logout', value: 'logout', leadingIcon: 'logout' },
+            ]"
+            :duration="dropdownDuration"
+            align-x-menu="right"
+            @item-click="$emit('menu-item-click', $event)"
+          >
             <vue-avatar :name="userName" :src="userImage" size="sm" />
           </vue-dropdown>
         </vue-column>
@@ -30,7 +32,6 @@
           <slot name="right" />
         </vue-column>
       </vue-columns>
-      
     </vue-content-block>
   </vue-box>
 </template>
@@ -66,20 +67,26 @@ const $style = useCssModule();
 
 .vueNavBar {
   height: $navbar-height;
-  background: $navbar-bg;
   z-index: $navbar-index;
   box-shadow: $navbar-elevation;
   border-bottom: $navbar-border;
   padding: $space-24;
- 
+
   .layout {
     height: 100%;
   }
 }
 .left {
-  flex: 0;
+  max-width: 15%;
+  position: absolute;
+  z-index: 999;
 }
 
+.center {
+  margin-left: 3vw;
+}
 
-
+.right {
+  margin-right: 3vw;
+}
 </style>
