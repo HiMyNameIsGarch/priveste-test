@@ -4,7 +4,7 @@ const themeColor = '#0f3191';
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   app: {
     head: {
       link: [
@@ -123,18 +123,7 @@ export default defineNuxtConfig({
     'nuxt-security', // TODO: comment in when https://github.com/sidebase/nuxt-auth/issues/324 is resolved
     '@vite-pwa/nuxt',
     '@nuxt/devtools',
-    'nuxt-vuefire',
   ],
-  vuefire: {
-    config: {
-      apiKey: 'AIzaSyCyiunVb7WFWW2PrIeThPj6pPjp8GFsTTg',
-      authDomain: 'priveste-test-5b872.firebaseapp.com',
-      projectId: 'priveste-test-5b872',
-      storageBucket: 'priveste-test-5b872.appspot.com',
-      messagingSenderId: '1088149786221',
-      appId: '1:1088149786221:web:608c6a14546fd9f5d1f964',
-    },
-  },
   nitro: {
     compressPublicAssets: true,
     publicAssets: isProd

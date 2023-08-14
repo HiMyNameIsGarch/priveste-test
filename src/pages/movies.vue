@@ -1,15 +1,15 @@
 <template>
   <vue-content-block :class="$style.unnamedPage">
     <li v-for="movie in movies" :key="movie.id">
-      <div>
-        <h1>{{ movie.name }} - {{ movie.date }}</h1>
+      <ul>
+        <h1>{{ movie.name }}</h1>
         <vue-button look="primary" trailing-icon="plus-circle" @click="setCurrent(movie)"> Set Current </vue-button>
         <vue-button look="primary" trailing-icon="plus-circle" @click="deleteMovie(movie.id)"> Delete </vue-button>
-      </div>
+      </ul>
     </li>
     <form :class="$style.loginForm" @submit.stop.prevent="onSubmit">
       <vue-stack>
-        <vue-text look="h3" as="h3"> Add new Movie </vue-text>
+        <vue-text look="h1" as="h1"> Add new Movie </vue-text>
         <vue-input
           id="movieName"
           v-model="currentMovie.name"

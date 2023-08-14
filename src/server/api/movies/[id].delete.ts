@@ -7,7 +7,5 @@ const sleep = (ms: number): Promise<unknown> => {
 export default defineEventHandler(async (event) => {
   await sleep(sleepValue);
 
-  console.log('hey, im here');
-
   return event.context.params?.id || 'nothingmansorry';
 });
