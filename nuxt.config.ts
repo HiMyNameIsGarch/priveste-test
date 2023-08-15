@@ -53,7 +53,6 @@ export default defineNuxtConfig({
     storageKey: 'nuxt-color-mode',
   },
   css: ['@/assets/global.scss'],
-  extends: ['@sidebase/nuxt-prisma'],
   i18n: {
     baseUrl: process.env.BASE_URL,
     strategy: 'prefix',
