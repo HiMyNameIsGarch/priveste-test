@@ -1,14 +1,12 @@
-import { getDocs } from 'firebase/firestore';
-import { collection } from 'firebase/firestore';
-import { db } from '~/composables/initFirebase';
-import { IMovie } from '~/interfaces/IMovie';
+import {IMovie} from '~/interfaces/IMovie';
 
-const getAll = async (): Promise<Array<IMovie>> => {
-  const movieCol = collection(db, 'movies');
-  const movieSnapshot = await getDocs(movieCol);
+import {movies} from '../utils/firebase';
+
+const getAll = async(): Promise<Array<IMovie>> => {
+  const data = await movies.get();
   const movieList: Array<IMovie> = [];
-  movieSnapshot.docs.forEach((doc) => movieList.push(doc.data() as IMovie));
+  data.forEach((doc) => movieList.push(doc.data() as IMovie));
   return movieList;
 };
 
-export { getAll };
+export {getAll};

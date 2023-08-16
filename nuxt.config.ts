@@ -4,7 +4,7 @@ const themeColor = '#0f3191';
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineNuxtConfig({
-  ssr: true,
+  ssr: false,
   app: {
     head: {
       link: [
