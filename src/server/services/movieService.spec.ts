@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { IMovie } from '~/interfaces/IMovie';
+
 import * as MovieService from './movieService';
 
 describe('Movie Service', () => {
@@ -47,13 +48,58 @@ describe('Movie Service', () => {
     });
 
     // Update method
-    test('it should update a movie succesfully', async () => {});
-    test('it should throw error, movie is undefined', async () => {});
-    test('it should throw error, id is undefined', async () => {});
-    test('it should throw error, movie does not exist', async () => {});
+    test('it should update a movie succesfully', async () => {
+        const newMovie = await ms.add(movie);
+        const newName = 'The New Fallout';
+        newMovie.name = newName;
+        const testMovie = await ms.update(newMovie);
+        expect(testMovie.name === newName).toBeTruthy();
+        await ms.del(newMovie.id);
+    });
+    test('it should throw error, movie is undefined', async () => {
+        try {
+            await ms.update(nullMovie);
+        } catch (err) {
+            expect((err as Error).message).toContain('Movie is undefined');
+        }
+    });
+    test('it should throw error, id is undefined', async () => {
+        try {
+            movie.id = undefined!;
+            await ms.update(movie);
+        } catch (err) {
+            expect((err as Error).message).toContain('Invalid movie id');
+        }
+    });
+    test('it should throw error, movie does not exist', async () => {
+        try {
+            movie.id = 'invalid id';
+            await ms.update(movie);
+        } catch (err) {
+            expect((err as Error).message).toContain('Movie does not exist');
+        }
+    });
 
     // Delete method
-    test('it should delete a movie succesfully', async () => {});
-    test('it should throw error, id is undefined', async () => {});
-    test('it should throw error, movie does not exist', async () => {});
+    test('it should delete a movie succesfully', async () => {
+        movie = await ms.add(movie);
+        const firstCount = (await ms.getAll()).length;
+        await ms.del(movie.id);
+        const secondCount = (await ms.getAll()).length;
+        expect(firstCount - 1 === secondCount).toBeTruthy();
+    });
+    test('it should throw error, id is undefined', async () => {
+        try {
+            await ms.del(undefined!);
+        } catch (err) {
+            expect((err as Error).message).toContain('Invalid movie id');
+        }
+    });
+    test('it should throw error, movie does not exist', async () => {
+        try {
+            await ms.del('invalid id');
+        } catch (err) {
+            expect((err as Error).message).toContain('Movie does not exist');
+        }
+    });
 });
