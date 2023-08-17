@@ -44,8 +44,7 @@ const del = async (movieId: string): Promise<boolean> => {
             throw new Error('Movie does not exists on deleting method');
         }
         const res = await docMovie.delete();
-        console.log(res);
-        return true;
+        return res.isEqual(res);
     } catch (err) {
         console.log(err);
         throw err;
