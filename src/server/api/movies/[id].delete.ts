@@ -1,11 +1,7 @@
-// simulate server response
-const sleepValue = 500;
-const sleep = (ms: number): Promise<unknown> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+import { del } from '~/server/services/movieService';
 
 export default defineEventHandler(async (event) => {
-  await sleep(sleepValue);
-
-  return event.context.params?.id || 'nothingmansorry';
+  const id = event.context.params?.id || '.';
+  const res = await del(id);
+  return res;
 });
