@@ -1,9 +1,6 @@
 import { compare } from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import * as Prisma from '@prisma/client';
 import { NuxtAuthHandler } from '#auth';
-
-const prisma = new Prisma.PrismaClient();
 
 export const comparePasswords = (plainPassword: string, hashedPassword: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
@@ -50,7 +47,7 @@ export default NuxtAuthHandler({
       async authorize(credentials: any) {
         const email = credentials.email;
         const password = credentials.password;
-        const accountRecord = await prisma.account.findUnique({ where: { email } });
+        const accountRecord = {} as { password: string };
 
         if (accountRecord === null) {
           return null;

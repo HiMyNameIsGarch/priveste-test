@@ -1,5 +1,4 @@
 import { genSalt, hash } from 'bcrypt';
-import { usePrisma } from '@sidebase/nuxt-prisma';
 import { readBody } from 'h3';
 
 export const hashPassword = (password: string): Promise<string> => {
@@ -21,21 +20,11 @@ export const hashPassword = (password: string): Promise<string> => {
 };
 
 export default eventHandler(async (event) => {
-  const prisma = usePrisma(event);
   const body = await readBody(event);
   const hashedPassword = await hashPassword(body.password);
 
   // create account
-  const newAccount = await prisma.account.create({
-    data: {
-      email: body.email,
-      password: hashedPassword,
-    },
-    select: {
-      id: true,
-      email: true,
-    },
-  });
+  const newAccount = { pass: hashedPassword };
 
   // TODO: implement 2FA
 

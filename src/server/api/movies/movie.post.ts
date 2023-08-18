@@ -1,22 +1,12 @@
-import { IMovie } from '~/interfaces/IMovie';
-// simulate server response
-const sleepValue = 500;
-const sleep = (ms: number): Promise<unknown> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+import {IMovie} from '~/interfaces/IMovie';
+import {add} from '~/server/services/movieService';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const newMovie = {} as IMovie;
-  newMovie.id = body.movieName + ' - id';
-  newMovie.date = new Date();
   newMovie.name = body.movieName;
-  console.log(newMovie.name);
-  console.log(newMovie.id);
+  newMovie.date = new Date();
+  const movie = await add(newMovie);
 
-  await sleep(sleepValue);
-
-  // upload the new created movie to database and return the object or null
-
-  return newMovie;
+  return movie;
 });
